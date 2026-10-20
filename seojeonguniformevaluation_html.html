@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>서정고등학교 교복 학교주관구매 적격업체 선정 평가표</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        body {
+            font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+
+        /* Print CSS Adjustments */
+        @media print {
+            body {
+                background-color: white !important;
+                color: black !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-shadow-none {
+                box-shadow: none !important;
+            }
+            .print-border-black {
+                border-color: #000 !important;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+            .evaluation-card {
+                border: 1px solid #d1d5db !important;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .table-cell-header {
+            background-color: #f8fafc;
+            font-weight: 600;
+            text-align: center;
+            vertical-align: middle;
+        }
+        
+        .table-cell-content {
+            vertical-align: middle;
+        }
+
+        /* Signature Canvas Touch Handling */
+        canvas {
+            touch-action: none;
+        }
+    </style>
+</head>
+<body class="p-2 sm:p-4 md:p-8 min-h-screen">
+
+    <div class="max-w-7xl mx-auto bg-white shadow-xl rounded-2xl overflow-hidden print-shadow-none border border-slate-200" id="print-area">
+        
+        <!-- Header Banner (Web view) -->
+        <div class="bg-indigo-900 text-white p-6 no-print flex flex-col md:flex-row justify-between items-center gap-4 border-b border-indigo-800">
+            <div>
+                <span class="bg-indigo-700 text-indigo-100 text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wide">2027학년도</span>
+                <h1 class="text-2xl sm:text-3xl font-bold mt-1">서정고등학교 교복 학교주관구매 적격업체 선정 평가표</h1>
+                <p class="text-indigo-200 text-sm mt-1">평가위원 전용 온라인 심사 시스템</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <button onclick="resetEvaluation()" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg text-sm font-medium transition flex items-center gap-2">
+                    <i class="fa-solid fa-rotate-left"></i> 초기화
+                </button>
+                <button onclick="window.print()" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-medium transition flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-print"></i> 평가표 인쇄 / PDF 저장
+                </button>
+            </div>
+        </div>
+
+        <!-- Document Header (Print & Web) -->
+        <div class="p-6 md:p-8">
+            <div class="text-center mb-6 border-b pb-6 border-slate-200">
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight">서정고등학교 교복 학교주관구매 적격업체 선정 평가표</h2>
+            </div>
+
+            <!-- Declaration & Signature Block -->
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 mb-8">
+                <p class="text-slate-700 text-sm md:text-base leading-relaxed mb-4 text-justify">
+                    본 평가표는 <strong class="text-indigo-900 font-semibold">2027학년도 서정고등학교 교복 학교주관구매 업체 선정</strong>을 위한 것으로 아래 제시된 항목에 따라 객관적이고 공정하게 심사할 것을 약속합니다. 아울러 서정고등학교 교복선정 위원회 지위를 이용한 금품 수수나 알선 등의 부정행위를 하지 않을 것을 확약합니다.
+                </p>
+                
+                <div class="flex flex-col md:flex-row justify-between items-end md:items-center gap-4 pt-4 border-t border-slate-200 text-sm md:text-base">
+                    <div class="font-semibold text-slate-800">
+                        일자: <span class="text-indigo-950">2026년 10월 20일</span>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full md:w-auto">
+                        <div class="flex items-center gap-2 w-full sm:w-auto">
+                            <label for="evaluator-name" class="font-semibold text-slate-800 whitespace-nowrap">평가위원 성명:</label>
+                            <input type="text" id="evaluator-name" placeholder="이름 입력" class="border border-slate-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full sm:w-36 text-sm">
+                        </div>
+                        
+                        <!-- Signature Area -->
+                        <div class="flex items-center gap-2">
+                            <span class="font-semibold text-slate-800 whitespace-nowrap">(서명 또는 인):</span>
+                            <div class="relative">
+                                <canvas id="signature-pad" width="160" height="60" class="border border-slate-300 rounded-lg bg-white cursor-crosshair"></canvas>
+                                <button onclick="clearSignature()" class="no-print absolute -top-2 -right-2 bg-slate-200 hover:bg-red-500 hover:text-white text-slate-600 rounded-full w-5 h-5 flex items-center justify-center text-xs transition" title="서명 지우기">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Evaluation Table -->
+            <div class="overflow-x-auto rounded-xl border border-slate-300 shadow-sm mb-6">
+                <table class="w-full text-xs md:text-sm text-left border-collapse min-w-[900px]">
+                    <thead>
+                        <tr class="bg-indigo-950 text-white text-center border-b border-indigo-900">
+                            <th class="py-3 px-2 border-r border-indigo-900 w-16">구분</th>
+                            <th class="py-3 px-3 border-r border-indigo-900 w-44">평가항목</th>
+                            <th class="py-3 px-3 border-r border-indigo-900">등급 및 배점기준</th>
+                            <th class="py-3 px-2 border-r border-indigo-900 w-14">배점</th>
+                            <th class="py-3 px-2 border-r border-indigo-900 w-24">업체 A</th>
+                            <th class="py-3 px-2 border-r border-indigo-900 w-24">업체 B</th>
+                            <th class="py-3 px-2 border-r border-indigo-900 w-24">업체 C</th>
+                            <th class="py-3 px-2 border-r border-indigo-900 w-24">업체 D</th>
+                            <th class="py-3 px-2 border-r border-indigo-900 w-24">업체 E</th>
+                            <th class="py-3 px-2 w-24">업체 F</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 bg-white">
+
+                        <!-- SECTION 1: 객관적 평가 (50점) - READONLY -->
+                        <!-- Row 1: 수행경험 -->
+                        <tr class="hover:bg-slate-50">
+                            <td rowspan="5" class="table-cell-header border-r border-slate-300 bg-slate-100 text-slate-800 font-bold p-2 text-center">
+                                객관적<br>평가<br><span class="text-xs text-slate-500 font-normal">(50점)</span>
+                            </td>
+                            <td class="table-cell-content border-r border-slate-300 p-2.5">
+                                <div class="font-bold text-slate-800">● 수행경험(10점)</div>
+                                <div class="text-[11px] text-slate-500 mt-0.5 leading-tight">
+                                    입찰공고일 기준 최근 3년간 학교주관구매 교복 납품실적(1교 동·하복 세트 1건, 분리 0.5건)
+                                </div>
+                            </td>
+                            <td class="table-cell-content border-r border-slate-300 p-2">
+                                <div class="grid grid-cols-2 gap-x-2 text-xs text-slate-600">
+                                    <span>• 8건 이상 (10점)</span>
+                                    <span>• 4건~7.5건 (7점)</span>
+                                    <span>• 3.5건 이하 (5점)</span>
+                                </div>
+                            </td>
+                            <td class="table-cell-header border-r border-slate-300 p-2 text-center font-bold text-slate-700">10</td>
+                            <!-- Fixed Scores for Companies A-F -->
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">10</td>
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">10</td>
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">7</td>
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">10</td>
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">10</td>
+                            <td class="p-2 text-center font-semibold bg-slate-50/50 text-slate-700">10</td>
+                        </tr>
+
+                        <!-- Row 2: 공인인증 품질인증 -->
+                        <tr class="hover:bg-slate-50">
+                            <td class="table-cell-content border-r border-slate-300 p-2.5">
+                                <div class="font-bold text-slate-800">● 공인인증(시험)기관 품질인증(10점)</div>
+                                <div class="text-[11px] text-slate-500 mt-0.5 leading-tight">
+                                    KATRI, FITI Q마크 인증서 또는 KOLAS 시험성적서 제출 여부
+                                </div>
+                            </td>
+                            <td class="table-cell-content border-r border-slate-300 p-2">
+                                <div class="text-xs text-slate-600 space-y-0.5">
+                                    <div>• 전 품목 Q마크 인증서 제출 (10점)</div>
+                                    <div>• 전 품목 시험성적서 제출 (8점)</div>
+                                    <div>• 일부 품목 Q마크 (6점) / 일부 시험성적서 (4점)</div>
+                                    <div>• 미인증 (0점)</div>
+                                </div>
+                            </td>
+                            <td class="table-cell-header border-r border-slate-300 p-2 text-center font-bold text-slate-700">10</td>
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">10</td>
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">6</td>
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">10</td>
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">10</td>
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">10</td>
+                            <td class="p-2 text-center font-semibold bg-slate-50/50 text-slate-700">10</td>
+                        </tr>
+
+                        <!-- Row 3: 국산 섬유제품 인증 -->
+                        <tr class="hover:bg-slate-50">
+                            <td class="table-cell-content border-r border-slate-300 p-2.5">
+                                <div class="font-bold text-slate-800">● 국산 섬유제품 인증 여부(10점)</div>
+                                <div class="text-[11px] text-slate-500 mt-0.5 leading-tight">
+                                    국산섬유제품 인증마크 사용계약서 및 국내산 원단 증빙서 (미제출 0점)
+                                </div>
+                            </td>
+                            <td class="table-cell-content border-r border-slate-300 p-2">
+                                <div class="text-xs text-slate-600 space-y-0.5">
+                                    <div>• 전 품목 인증마크 계약서(트랙1/3) (10점)</div>
+                                    <div>• 전 품목 인증마크 계약서(트랙2) 또는 원산지 증빙 (5점)</div>
+                                </div>
+                            </td>
+                            <td class="table-cell-header border-r border-slate-300 p-2 text-center font-bold text-slate-700">10</td>
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">10</td>
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">5</td>
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">10</td>
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">10</td>
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">5</td>
+                            <td class="p-2 text-center font-semibold bg-slate-50/50 text-slate-700">0</td>
+                        </tr>
+
+                        <!-- Row 4: 거리적 접근성 -->
+                        <tr class="hover:bg-slate-50">
+                            <td class="table-cell-content border-r border-slate-300 p-2.5">
+                                <div class="font-bold text-slate-800">● 거리적 접근성(15점)</div>
+                                <div class="text-[11px] text-slate-500 mt-0.5 leading-tight">
+                                    학교와 교복업체(매장)와의 이동거리 (사업자등록증 주소지 기준)
+                                </div>
+                            </td>
+                            <td class="table-cell-content border-r border-slate-300 p-2">
+                                <div class="grid grid-cols-2 gap-x-2 text-xs text-slate-600">
+                                    <span>• 2km 미만 (15점)</span>
+                                    <span>• 2km~7km 미만 (12점)</span>
+                                    <span>• 7km~12km 미만 (9점)</span>
+                                    <span>• 12km~17km 미만 (6점)</span>
+                                    <span>• 17km 이상 (0점)</span>
+                                </div>
+                            </td>
+                            <td class="table-cell-header border-r border-slate-300 p-2 text-center font-bold text-slate-700">15</td>
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">12</td>
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">12</td>
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">12</td>
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">12</td>
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">12</td>
+                            <td class="p-2 text-center font-semibold bg-slate-50/50 text-slate-700">15</td>
+                        </tr>
+
+                        <!-- Row 5: 가격의 적정성 -->
+                        <tr class="hover:bg-slate-50 border-b-2 border-slate-400">
+                            <td class="table-cell-content border-r border-slate-300 p-2.5">
+                                <div class="font-bold text-slate-800">● 가격의 적정성(5점)</div>
+                                <div class="text-[11px] text-slate-500 mt-0.5 leading-tight">
+                                    품목별 단가 비율표의 적정성 여부 (초과율 합산 평가)
+                                </div>
+                            </td>
+                            <td class="table-cell-content border-r border-slate-300 p-2">
+                                <div class="text-xs text-slate-600 space-y-0.5">
+                                    <span>• 초과율 2%이하(5점)</span> / <span>2%초과(4점)</span> / <span>4%초과(3점)</span> / <span>6%초과(2점)</span> / <span>7%초과(0점)</span>
+                                </div>
+                            </td>
+                            <td class="table-cell-header border-r border-slate-300 p-2 text-center font-bold text-slate-700">5</td>
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">5</td>
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">5</td>
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">5</td>
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">5</td>
+                            <td class="border-r border-slate-300 p-2 text-center font-semibold bg-slate-50/50 text-slate-700">5</td>
+                            <td class="p-2 text-center font-semibold bg-slate-50/50 text-slate-700">5</td>
+                        </tr>
+
+                        <!-- SECTION 2: 주관적 평가 (50점) - INTERACTIVE -->
+                        <!-- Sub Row 1: 옷감의 재질 -->
+                        <tr class="hover:bg-indigo-50/30">
+                            <td rowspan="5" class="table-cell-header border-r border-slate-300 bg-indigo-50/50 text-indigo-900 font-bold p-2 text-center">
+                                주관적<br>평가<br><span class="text-xs text-indigo-600 font-normal">(50점)</span>
+                            </td>
+                            <td class="table-cell-content border-r border-slate-300 p-2.5">
+                                <div class="font-bold text-slate-800">● 옷감의 재질(15점)</div>
+                                <div class="text-[11px] text-slate-500 mt-0.5 leading-tight">
+                                    촉감, 질감, 구김, 신축성, 섬유조직의 세밀함과 부드러움
+                                </div>
+                            </td>
+                            <td class="table-cell-content border-r border-slate-300 p-2">
+                                <div class="text-xs text-slate-600 space-y-0.5">
+                                    <div>• 매우 우수 (15점) / 우수 (12점) / 보통 (9점)</div>
+                                    <div>• 미흡 (6점) / 매우 미흡 (3점)</div>
+                                </div>
+                            </td>
+                            <td class="table-cell-header border-r border-slate-300 p-2 text-center font-bold text-slate-700">15</td>
+                            
+                            <!-- Dynamic Selector Cells for Companies A-F -->
+                            <!-- Company A -->
+                            <td class="border-r border-slate-300 p-1.5 text-center">
+                                <select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs focus:ring-2 focus:ring-indigo-500 focus:bg-white" data-company="A">
+                                    <option value="15">매우 우수 (15)</option>
+                                    <option value="12">우수 (12)</option>
+                                    <option value="9">보통 (9)</option>
+                                    <option value="6">미흡 (6)</option>
+                                    <option value="3">매우 미흡 (3)</option>
+                                </select>
+                            </td>
+                            <!-- Company B -->
+                            <td class="border-r border-slate-300 p-1.5 text-center">
+                                <select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs focus:ring-2 focus:ring-indigo-500 focus:bg-white" data-company="B">
+                                    <option value="15">매우 우수 (15)</option>
+                                    <option value="12">우수 (12)</option>
+                                    <option value="9">보통 (9)</option>
+                                    <option value="6">미흡 (6)</option>
+                                    <option value="3">매우 미흡 (3)</option>
+                                </select>
+                            </td>
+                            <!-- Company C -->
+                            <td class="border-r border-slate-300 p-1.5 text-center">
+                                <select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs focus:ring-2 focus:ring-indigo-500 focus:bg-white" data-company="C">
+                                    <option value="15">매우 우수 (15)</option>
+                                    <option value="12">우수 (12)</option>
+                                    <option value="9">보통 (9)</option>
+                                    <option value="6">미흡 (6)</option>
+                                    <option value="3">매우 미흡 (3)</option>
+                                </select>
+                            </td>
+                            <!-- Company D -->
+                            <td class="border-r border-slate-300 p-1.5 text-center">
+                                <select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs focus:ring-2 focus:ring-indigo-500 focus:bg-white" data-company="D">
+                                    <option value="15">매우 우수 (15)</option>
+                                    <option value="12">우수 (12)</option>
+                                    <option value="9">보통 (9)</option>
+                                    <option value="6">미흡 (6)</option>
+                                    <option value="3">매우 미흡 (3)</option>
+                                </select>
+                            </td>
+                            <!-- Company E -->
+                            <td class="border-r border-slate-300 p-1.5 text-center">
+                                <select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs focus:ring-2 focus:ring-indigo-500 focus:bg-white" data-company="E">
+                                    <option value="15">매우 우수 (15)</option>
+                                    <option value="12">우수 (12)</option>
+                                    <option value="9">보통 (9)</option>
+                                    <option value="6">미흡 (6)</option>
+                                    <option value="3">매우 미흡 (3)</option>
+                                </select>
+                            </td>
+                            <!-- Company F -->
+                            <td class="p-1.5 text-center">
+                                <select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs focus:ring-2 focus:ring-indigo-500 focus:bg-white" data-company="F">
+                                    <option value="15">매우 우수 (15)</option>
+                                    <option value="12">우수 (12)</option>
+                                    <option value="9">보통 (9)</option>
+                                    <option value="6">미흡 (6)</option>
+                                    <option value="3">매우 미흡 (3)</option>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <!-- Sub Row 2: 교복의 완성도 -->
+                        <tr class="hover:bg-indigo-50/30">
+                            <td class="table-cell-content border-r border-slate-300 p-2.5">
+                                <div class="font-bold text-slate-800">● 교복의 완성도(10점)</div>
+                                <div class="text-[11px] text-slate-500 mt-0.5 leading-tight">
+                                    바느질, 단추/지퍼 견고함, 마감처리 완성도, 여유단 정도
+                                </div>
+                            </td>
+                            <td class="table-cell-content border-r border-slate-300 p-2">
+                                <div class="text-xs text-slate-600 space-y-0.5">
+                                    <div>• 매우 우수 (10점) / 우수 (8점) / 보통 (6점)</div>
+                                    <div>• 미흡 (4점) / 매우 미흡 (2점)</div>
+                                </div>
+                            </td>
+                            <td class="table-cell-header border-r border-slate-300 p-2 text-center font-bold text-slate-700">10</td>
+                            
+                            <!-- Dynamic Selector Cells -->
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="A"><option value="10">매우 우수 (10)</option><option value="8">우수 (8)</option><option value="6">보통 (6)</option><option value="4">미흡 (4)</option><option value="2">매우 미흡 (2)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="B"><option value="10">매우 우수 (10)</option><option value="8">우수 (8)</option><option value="6">보통 (6)</option><option value="4">미흡 (4)</option><option value="2">매우 미흡 (2)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="C"><option value="10">매우 우수 (10)</option><option value="8">우수 (8)</option><option value="6">보통 (6)</option><option value="4">미흡 (4)</option><option value="2">매우 미흡 (2)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="D"><option value="10">매우 우수 (10)</option><option value="8">우수 (8)</option><option value="6">보통 (6)</option><option value="4">미흡 (4)</option><option value="2">매우 미흡 (2)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="E"><option value="10">매우 우수 (10)</option><option value="8">우수 (8)</option><option value="6">보통 (6)</option><option value="4">미흡 (4)</option><option value="2">매우 미흡 (2)</option></select></td>
+                            <td class="p-1.5 text-center"><select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="F"><option value="10">매우 우수 (10)</option><option value="8">우수 (8)</option><option value="6">보통 (6)</option><option value="4">미흡 (4)</option><option value="2">매우 미흡 (2)</option></select></td>
+                        </tr>
+
+                        <!-- Sub Row 3: A/S 계획 -->
+                        <tr class="hover:bg-indigo-50/30">
+                            <td class="table-cell-content border-r border-slate-300 p-2.5">
+                                <div class="font-bold text-slate-800">● A/S 계획(5점)</div>
+                                <div class="text-[11px] text-slate-500 mt-0.5 leading-tight">
+                                    무상 A/S 기간, 편의성(수선점 거리, 신속성, 출장/택배), A/S 세부내용
+                                </div>
+                            </td>
+                            <td class="table-cell-content border-r border-slate-300 p-2">
+                                <div class="text-xs text-slate-600 space-y-0.5">
+                                    <div>• 매우 우수 (5점) / 우수 (4점) / 보통 (3점)</div>
+                                    <div>• 미흡 (2점) / 매우 미흡 (1점)</div>
+                                </div>
+                            </td>
+                            <td class="table-cell-header border-r border-slate-300 p-2 text-center font-bold text-slate-700">5</td>
+                            
+                            <!-- Dynamic Selector Cells -->
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="A"><option value="5">매우 우수 (5)</option><option value="4">우수 (4)</option><option value="3">보통 (3)</option><option value="2">미흡 (2)</option><option value="1">매우 미흡 (1)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="B"><option value="5">매우 우수 (5)</option><option value="4">우수 (4)</option><option value="3">보통 (3)</option><option value="2">미흡 (2)</option><option value="1">매우 미흡 (1)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="C"><option value="5">매우 우수 (5)</option><option value="4">우수 (4)</option><option value="3">보통 (3)</option><option value="2">미흡 (2)</option><option value="1">매우 미흡 (1)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="D"><option value="5">매우 우수 (5)</option><option value="4">우수 (4)</option><option value="3">보통 (3)</option><option value="2">미흡 (2)</option><option value="1">매우 미흡 (1)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="E"><option value="5">매우 우수 (5)</option><option value="4">우수 (4)</option><option value="3">보통 (3)</option><option value="2">미흡 (2)</option><option value="1">매우 미흡 (1)</option></select></td>
+                            <td class="p-1.5 text-center"><select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="F"><option value="5">매우 우수 (5)</option><option value="4">우수 (4)</option><option value="3">보통 (3)</option><option value="2">미흡 (2)</option><option value="1">매우 미흡 (1)</option></select></td>
+                        </tr>
+
+                        <!-- Sub Row 4: 소비자 불만 처리 계획 -->
+                        <tr class="hover:bg-indigo-50/30">
+                            <td class="table-cell-content border-r border-slate-300 p-2.5">
+                                <div class="font-bold text-slate-800">● 소비자 불만 처리 계획(10점)</div>
+                                <div class="text-[11px] text-slate-500 mt-0.5 leading-tight">
+                                    제품하자에 대한 교환 등 하자 보상 및 소비자 불만사항 처리 방안
+                                </div>
+                            </td>
+                            <td class="table-cell-content border-r border-slate-300 p-2">
+                                <div class="text-xs text-slate-600 space-y-0.5">
+                                    <div>• 우수 (10점) / 보통 (7점) / 미흡 (5점)</div>
+                                </div>
+                            </td>
+                            <td class="table-cell-header border-r border-slate-300 p-2 text-center font-bold text-slate-700">10</td>
+                            
+                            <!-- Dynamic Selector Cells -->
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="A"><option value="10">우수 (10)</option><option value="7">보통 (7)</option><option value="5">미흡 (5)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="B"><option value="10">우수 (10)</option><option value="7">보통 (7)</option><option value="5">미흡 (5)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="C"><option value="10">우수 (10)</option><option value="7">보통 (7)</option><option value="5">미흡 (5)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="D"><option value="10">우수 (10)</option><option value="7">보통 (7)</option><option value="5">미흡 (5)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="E"><option value="10">우수 (10)</option><option value="7">보통 (7)</option><option value="5">미흡 (5)</option></select></td>
+                            <td class="p-1.5 text-center"><select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="F"><option value="10">우수 (10)</option><option value="7">보통 (7)</option><option value="5">미흡 (5)</option></select></td>
+                        </tr>
+
+                        <!-- Sub Row 5: 블라인드 심사 적절성 -->
+                        <tr class="hover:bg-indigo-50/30 border-b-2 border-slate-400">
+                            <td class="table-cell-content border-r border-slate-300 p-2.5">
+                                <div class="font-bold text-slate-800">● 블라인드 심사 적절성(10점)</div>
+                                <div class="text-[11px] text-slate-500 mt-0.5 leading-tight">
+                                    견본품 상표 노출, 패턴, 단추, 옷걸이 등 블라인드 훼손 여부
+                                </div>
+                            </td>
+                            <td class="table-cell-content border-r border-slate-300 p-2">
+                                <div class="text-xs text-slate-600 space-y-0.5">
+                                    <div>• 우수 (10점)</div>
+                                    <div>• 미흡 - 허술한 상표가림 등 (3점)</div>
+                                    <div class="text-red-600 font-semibold">• 허위/위조 서류 제출 시 (부적격)</div>
+                                </div>
+                            </td>
+                            <td class="table-cell-header border-r border-slate-300 p-2 text-center font-bold text-slate-700">10</td>
+                            
+                            <!-- Dynamic Selector Cells -->
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="A"><option value="10">우수 (10)</option><option value="3">미흡 (3)</option><option value="DISQUALIFIED">부적격</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="B"><option value="10">우수 (10)</option><option value="3">미흡 (3)</option><option value="DISQUALIFIED">부적격</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="C"><option value="10">우수 (10)</option><option value="3">미흡 (3)</option><option value="DISQUALIFIED">부적격</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="D"><option value="10">우수 (10)</option><option value="3">미흡 (3)</option><option value="DISQUALIFIED">부적격</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="E"><option value="10">우수 (10)</option><option value="3">미흡 (3)</option><option value="DISQUALIFIED">부적격</option></select></td>
+                            <td class="p-1.5 text-center"><select onchange="updateScores()" class="subj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="F"><option value="10">우수 (10)</option><option value="3">미흡 (3)</option><option value="DISQUALIFIED">부적격</option></select></td>
+                        </tr>
+
+                        <!-- SECTION 3: 가점 / 감점 항목 -->
+                        <!-- Row 1: 교복 만족도 조사 -->
+                        <tr class="hover:bg-amber-50/30">
+                            <td rowspan="4" class="table-cell-header border-r border-slate-300 bg-amber-50/50 text-amber-900 font-bold p-2 text-center">
+                                가점 /<br>감점
+                            </td>
+                            <td class="table-cell-content border-r border-slate-300 p-2.5">
+                                <div class="font-bold text-slate-800">● 교복 만족도 조사 점수</div>
+                                <div class="text-[11px] text-slate-500 mt-0.5 leading-tight">
+                                    최근 2년간 본교 교복 만족도 조사 결과 반영
+                                </div>
+                            </td>
+                            <td class="table-cell-content border-r border-slate-300 p-2">
+                                <div class="text-xs text-slate-600 space-y-0.5">
+                                    <span>• 80점 이상 (+5)</span> / <span>75점~80점 미만 (+3)</span> / <span>60점~75점 (0)</span><br>
+                                    <span>• 60점 이하 (-3)</span> / <span>50점 이하 (-5)</span>
+                                </div>
+                            </td>
+                            <td class="table-cell-header border-r border-slate-300 p-2 text-center font-bold text-slate-700">±5</td>
+                            
+                            <!-- Selectors -->
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="adj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="A"><option value="0">해당없음 (0)</option><option value="5">80점 이상 (+5)</option><option value="3">75~80점 미만 (+3)</option><option value="-3">60점 이하 (-3)</option><option value="-5">50점 이하 (-5)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="adj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="B"><option value="0">해당없음 (0)</option><option value="5">80점 이상 (+5)</option><option value="3">75~80점 미만 (+3)</option><option value="-3">60점 이하 (-3)</option><option value="-5">50점 이하 (-5)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="adj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="C"><option value="0">해당없음 (0)</option><option value="5">80점 이상 (+5)</option><option value="3">75~80점 미만 (+3)</option><option value="-3">60점 이하 (-3)</option><option value="-5">50점 이하 (-5)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="adj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="D"><option value="0">해당없음 (0)</option><option value="5">80점 이상 (+5)</option><option value="3">75~80점 미만 (+3)</option><option value="-3">60점 이하 (-3)</option><option value="-5">50점 이하 (-5)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="adj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="E"><option value="0">해당없음 (0)</option><option value="5">80점 이상 (+5)</option><option value="3">75~80점 미만 (+3)</option><option value="-3">60점 이하 (-3)</option><option value="-5">50점 이하 (-5)</option></select></td>
+                            <td class="p-1.5 text-center"><select onchange="updateScores()" class="adj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="F"><option value="0">해당없음 (0)</option><option value="5">80점 이상 (+5)</option><option value="3">75~80점 미만 (+3)</option><option value="-3">60점 이하 (-3)</option><option value="-5">50점 이하 (-5)</option></select></td>
+                        </tr>
+
+                        <!-- Row 2: 추가구매 거부 -->
+                        <tr class="hover:bg-amber-50/30">
+                            <td class="table-cell-content border-r border-slate-300 p-2.5">
+                                <div class="font-bold text-slate-800">● 교복 추가구매 판매거부 감점</div>
+                                <div class="text-[11px] text-slate-500 mt-0.5 leading-tight">
+                                    운영위/학부모회 안건 채택 또는 국민신문고 민원 확인 건
+                                </div>
+                            </td>
+                            <td class="table-cell-content border-r border-slate-300 p-2">
+                                <div class="text-xs text-slate-600">
+                                    • 1~2건 (-1점) / 3~4건 (-3점) / 5건 이상 (-5점)
+                                </div>
+                            </td>
+                            <td class="table-cell-header border-r border-slate-300 p-2 text-center font-bold text-slate-700">-5</td>
+                            
+                            <!-- Selectors -->
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="adj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="A"><option value="0">해당없음 (0)</option><option value="-1">1~2건 (-1)</option><option value="-3">3~4건 (-3)</option><option value="-5">5건 이상 (-5)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="adj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="B"><option value="0">해당없음 (0)</option><option value="-1">1~2건 (-1)</option><option value="-3">3~4건 (-3)</option><option value="-5">5건 이상 (-5)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="adj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="C"><option value="0">해당없음 (0)</option><option value="-1">1~2건 (-1)</option><option value="-3">3~4건 (-3)</option><option value="-5">5건 이상 (-5)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="adj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="D"><option value="0">해당없음 (0)</option><option value="-1">1~2건 (-1)</option><option value="-3">3~4건 (-3)</option><option value="-5">5건 이상 (-5)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="adj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="E"><option value="0">해당없음 (0)</option><option value="-1">1~2건 (-1)</option><option value="-3">3~4건 (-3)</option><option value="-5">5건 이상 (-5)</option></select></td>
+                            <td class="p-1.5 text-center"><select onchange="updateScores()" class="adj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="F"><option value="0">해당없음 (0)</option><option value="-1">1~2건 (-1)</option><option value="-3">3~4건 (-3)</option><option value="-5">5건 이상 (-5)</option></select></td>
+                        </tr>
+
+                        <!-- Row 3: 담합 행정처분 -->
+                        <tr class="hover:bg-amber-50/30">
+                            <td class="table-cell-content border-r border-slate-300 p-2.5">
+                                <div class="font-bold text-slate-800">● 공정거래위원회 담합 행정처분</div>
+                                <div class="text-[11px] text-slate-500 mt-0.5 leading-tight">
+                                    입찰공고일 기준 최근 1년간 담합 사유 처분 여부
+                                </div>
+                            </td>
+                            <td class="table-cell-content border-r border-slate-300 p-2">
+                                <div class="text-xs text-slate-600">
+                                    • 해당 시 (-10점)
+                                </div>
+                            </td>
+                            <td class="table-cell-header border-r border-slate-300 p-2 text-center font-bold text-slate-700">-10</td>
+                            
+                            <!-- Selectors -->
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="adj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="A"><option value="0">해당없음 (0)</option><option value="-10">해당 (-10)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="adj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="B"><option value="0">해당없음 (0)</option><option value="-10">해당 (-10)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="adj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="C"><option value="0">해당없음 (0)</option><option value="-10">해당 (-10)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="adj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="D"><option value="0">해당없음 (0)</option><option value="-10">해당 (-10)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="adj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="E"><option value="0">해당없음 (0)</option><option value="-10">해당 (-10)</option></select></td>
+                            <td class="p-1.5 text-center"><select onchange="updateScores()" class="adj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="F"><option value="0">해당없음 (0)</option><option value="-10">해당 (-10)</option></select></td>
+                        </tr>
+
+                        <!-- Row 4: 규격미달 견본 -->
+                        <tr class="hover:bg-amber-50/30 border-b-2 border-slate-400">
+                            <td class="table-cell-content border-r border-slate-300 p-2.5">
+                                <div class="font-bold text-slate-800">● 규격미달 견본</div>
+                                <div class="text-[11px] text-slate-500 mt-0.5 leading-tight">
+                                    견본품 소재가 입찰공고 소재 혼용률과 상이한 경우
+                                </div>
+                            </td>
+                            <td class="table-cell-content border-r border-slate-300 p-2">
+                                <div class="text-xs text-slate-600">
+                                    • 혼용률 차이 ±10 이상 (-5점) / ±15 이상 (부적격)
+                                </div>
+                            </td>
+                            <td class="table-cell-header border-r border-slate-300 p-2 text-center font-bold text-slate-700">감점</td>
+                            
+                            <!-- Selectors -->
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="adj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="A"><option value="0">해당없음 (0)</option><option value="-5">±10 이상 (-5)</option><option value="DISQUALIFIED">±15 이상 (부적격)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="adj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="B"><option value="0">해당없음 (0)</option><option value="-5">±10 이상 (-5)</option><option value="DISQUALIFIED">±15 이상 (부적격)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="adj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="C"><option value="0">해당없음 (0)</option><option value="-5">±10 이상 (-5)</option><option value="DISQUALIFIED">±15 이상 (부적격)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="adj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="D"><option value="0">해당없음 (0)</option><option value="-5">±10 이상 (-5)</option><option value="DISQUALIFIED">±15 이상 (부적격)</option></select></td>
+                            <td class="border-r border-slate-300 p-1.5 text-center"><select onchange="updateScores()" class="adj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="E"><option value="0">해당없음 (0)</option><option value="-5">±10 이상 (-5)</option><option value="DISQUALIFIED">±15 이상 (부적격)</option></select></td>
+                            <td class="p-1.5 text-center"><select onchange="updateScores()" class="adj-score w-full bg-slate-50 border border-slate-300 rounded p-1 text-xs" data-company="F"><option value="0">해당없음 (0)</option><option value="-5">±10 이상 (-5)</option><option value="DISQUALIFIED">±15 이상 (부적격)</option></select></td>
+                        </tr>
+
+                        <!-- SECTION 4: 최종 합계 (Grand Total Score) -->
+                        <tr class="bg-indigo-900 text-white font-bold text-base">
+                            <td colspan="4" class="py-4 px-4 text-center border-r border-indigo-800 text-indigo-100 uppercase tracking-wider">
+                                계 (합 계 점 수)
+                            </td>
+                            <!-- Score Cells for A-F -->
+                            <td class="py-4 px-2 text-center border-r border-indigo-800" id="total-A">-</td>
+                            <td class="py-4 px-2 text-center border-r border-indigo-800" id="total-B">-</td>
+                            <td class="py-4 px-2 text-center border-r border-indigo-800" id="total-C">-</td>
+                            <td class="py-4 px-2 text-center border-r border-indigo-800" id="total-D">-</td>
+                            <td class="py-4 px-2 text-center border-r border-indigo-800" id="total-E">-</td>
+                            <td class="py-4 px-2 text-center" id="total-F">-</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Score Summary Cards for Web/Mobile View -->
+            <div class="no-print mt-8 bg-slate-50 border border-slate-200 rounded-xl p-5">
+                <h3 class="text-base font-bold text-slate-800 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-chart-simple text-indigo-600"></i> 업체별 실시간 산출 결과
+                </h3>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3" id="summary-cards">
+                    <!-- Cards injected dynamically via JS -->
+                </div>
+            </div>
+
+            <!-- Footer Notes -->
+            <div class="mt-6 text-xs text-slate-500 leading-relaxed border-t border-slate-200 pt-4">
+                <p>※ 객관적 평가 항목(수행경험, 공인인증 품질인증, 국산섬유인증, 거리적 접근성, 가격 적정성)은 사전 검토 완료된 점수로 평가위원이 임의 변경할 수 없습니다.</p>
+                <p>※ 최종 평점 중 '부적격' 판정이 하나라도 있는 경우 해당 업체는 종합점수와 관계없이 적격업체 선정에서 제외됩니다.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Preset Fixed Objective Scores for Companies A, B, C, D, E, F
+        const fixedObjectiveScores = {
+            'A': 10 + 10 + 10 + 12 + 5, // 47
+            'B': 10 + 6 + 5 + 12 + 5,   // 38
+            'C': 7 + 10 + 10 + 12 + 5,  // 44
+            'D': 10 + 10 + 10 + 12 + 5, // 47
+            'E': 10 + 10 + 5 + 12 + 5,  // 42
+            'F': 10 + 10 + 0 + 15 + 5   // 40
+        };
+
+        const companies = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+        // Initialize Canvas Signature Pad
+        const canvas = document.getElementById('signature-pad');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+
+        function initCanvas() {
+            ctx.strokeStyle = "#0f172a";
+            ctx.lineWidth = 2;
+            ctx.lineCap = "round";
+
+            // Mouse Events
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseleave', stopDrawing);
+
+            // Touch Events for Mobile/Tablet
+            canvas.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const rect = canvas.getBoundingClientRect();
+                startDrawing({ clientX: touch.clientX, clientY: touch.clientY, rect });
+            });
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const rect = canvas.getBoundingClientRect();
+                draw({ clientX: touch.clientX, clientY: touch.clientY, rect });
+            });
+            canvas.addEventListener('touchend', stopDrawing);
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            const rect = e.rect || canvas.getBoundingClientRect();
+            ctx.beginPath();
+            ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const rect = e.rect || canvas.getBoundingClientRect();
+            ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+            ctx.stroke();
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function clearSignature() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Real-time Score Calculation
+        function updateScores() {
+            let highestScore = -Infinity;
+            const results = {};
+
+            companies.forEach(company => {
+                let isDisqualified = false;
+                let subjTotal = 0;
+                let adjTotal = 0;
+
+                // Sum Subjective Scores for this company
+                const subjSelects = document.querySelectorAll(`.subj-score[data-company="${company}"]`);
+                subjSelects.forEach(select => {
+                    if (select.value === 'DISQUALIFIED') {
+                        isDisqualified = true;
+                    } else {
+                        subjTotal += parseFloat(select.value) || 0;
+                    }
+                });
+
+                // Sum Adjustment/Deduction Scores for this company
+                const adjSelects = document.querySelectorAll(`.adj-score[data-company="${company}"]`);
+                adjSelects.forEach(select => {
+                    if (select.value === 'DISQUALIFIED') {
+                        isDisqualified = true;
+                    } else {
+                        adjTotal += parseFloat(select.value) || 0;
+                    }
+                });
+
+                const objScore = fixedObjectiveScores[company];
+                const totalScore = objScore + subjTotal + adjTotal;
+
+                results[company] = {
+                    objScore,
+                    subjTotal,
+                    adjTotal,
+                    totalScore,
+                    isDisqualified
+                };
+
+                // Track highest score for valid entries
+                if (!isDisqualified && totalScore > highestScore) {
+                    highestScore = totalScore;
+                }
+            });
+
+            // Render Results in Main Table & Summary Cards
+            const summaryContainer = document.getElementById('summary-cards');
+            summaryContainer.innerHTML = '';
+
+            companies.forEach(company => {
+                const res = results[company];
+                const totalTd = document.getElementById(`total-${company}`);
+                
+                if (res.isDisqualified) {
+                    totalTd.innerHTML = `<span class="text-red-300 font-bold bg-red-950 px-2 py-0.5 rounded">부적격</span>`;
+                } else {
+                    const isHighest = res.totalScore === highestScore && highestScore > 0;
+                    totalTd.innerHTML = `
+                        <div class="flex flex-col items-center">
+                            <span class="text-lg ${isHighest ? 'text-amber-300 font-extrabold scale-110 transform transition' : 'text-white'}">
+                                ${res.totalScore}점
+                            </span>
+                            ${isHighest ? '<span class="text-[10px] bg-amber-400 text-amber-950 font-black px-1.5 rounded-full mt-0.5">최고점</span>' : ''}
+                        </div>
+                    `;
+                }
+
+                // Append Summary Card
+                const card = document.createElement('div');
+                card.className = `p-3 rounded-lg border text-center ${res.isDisqualified ? 'bg-red-50 border-red-200' : 'bg-white border-slate-200 shadow-sm'}`;
+                card.innerHTML = `
+                    <div class="text-xs font-semibold text-slate-500 mb-1">업체 ${company}</div>
+                    <div class="text-xl font-bold ${res.isDisqualified ? 'text-red-600' : 'text-indigo-950'}">
+                        ${res.isDisqualified ? '부적격' : res.totalScore + '점'}
+                    </div>
+                    <div class="text-[10px] text-slate-400 mt-1">
+                        객관:${res.objScore} | 주관:${res.subjTotal} | 가감:${res.adjTotal}
+                    </div>
+                `;
+                summaryContainer.appendChild(card);
+            });
+        }
+
+        // Reset Evaluation Selections
+        function resetEvaluation() {
+            if (confirm('평가항목 선택 및 서명을 초기화하시겠습니까?')) {
+                document.querySelectorAll('select').forEach(select => {
+                    select.selectedIndex = 0;
+                });
+                document.getElementById('evaluator-name').value = '';
+                clearSignature();
+                updateScores();
+            }
+        }
+
+        // Initial Load Setup
+        window.onload = function() {
+            initCanvas();
+            updateScores();
+        };
+    </script>
+</body>
+</html>
